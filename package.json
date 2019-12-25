@@ -1,6 +1,6 @@
 {
-  "name": "snack_bar",
-  "version": "0.0.0",
+  "name": "snackbar",
+  "version": "0.0.1",
   "license": "MIT",
   "files": [
     "dist/*"

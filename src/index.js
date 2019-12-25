@@ -1,3 +1,4 @@
+import React from "react";
 import SnackBarReducer from "./redux/reducer.js";
 import { onSetMessage } from "./redux/actions";
 import Snackbar from '@material-ui/core/Snackbar';

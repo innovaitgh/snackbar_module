@@ -17,6 +17,8 @@ Object.defineProperty(exports, "onSetMessage", {
 });
 exports["default"] = void 0;
 
+var _react = _interopRequireDefault(require("react"));
+
 var _reducer = _interopRequireDefault(require("./redux/reducer.js"));
 
 var _actions = require("./redux/actions");
@@ -43,18 +45,18 @@ function SimpleSnackbar(_ref) {
   }
 
   ;
-  return React.createElement(React.Fragment, null, React.createElement(_Snackbar["default"], _extends({
+  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_Snackbar["default"], _extends({
     open: Boolean(message),
     autoHideDuration: 6000
   }, {
     message: message,
     onClose: onClose
   }, {
-    action: [React.createElement(_IconButton["default"], {
+    action: [_react["default"].createElement(_IconButton["default"], {
       key: "close",
       color: "inherit",
       onClick: handleClose
-    }, React.createElement(_Close["default"], null))]
+    }, _react["default"].createElement(_Close["default"], null))]
   })));
 }
 
