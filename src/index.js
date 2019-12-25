@@ -20,7 +20,7 @@ function SimpleSnackbar({ SnackBarReducer: message }) {
           <IconButton
             key="close"
             color="inherit"
-            onClick={ handleClose }
+            onClick={ onClose }
           >
             <CloseIcon />
           </IconButton>,

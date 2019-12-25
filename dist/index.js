@@ -55,7 +55,7 @@ function SimpleSnackbar(_ref) {
     action: [_react["default"].createElement(_IconButton["default"], {
       key: "close",
       color: "inherit",
-      onClick: handleClose
+      onClick: onClose
     }, _react["default"].createElement(_Close["default"], null))]
   })));
 }
