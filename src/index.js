@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-function SimpleSnackbar({ SnackBarReducer: message }) {
+function SimpleSnackbar({ SnackBarReducer: message, onSetMessage }) {
   function onClose() { onSetMessage(null); };
 
   return (
