@@ -43,6 +43,8 @@ var _actions = require("./redux/actions");
 
 var _core = require("@material-ui/core");
 
+var _Alert = _interopRequireDefault(require("@material-ui/lab/Alert"));
+
 var _redux = require("redux");
 
 var _reactRedux = require("react-redux");
@@ -51,20 +53,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function Alert(props) {
+  return _react["default"].createElement(_Alert["default"], _extends({
+    elevation: 6,
+    variant: "filled"
+  }, props));
+}
+
 function SimpleSnackbar(_ref) {
   var snackbarReducer = _ref.snackbarReducer,
       eventHideSnackbar = _ref.eventHideSnackbar;
   var message = snackbarReducer.message,
       severity = snackbarReducer.severity;
-  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_core.Snackbar, {
+  return _react["default"].createElement(_core.Snackbar, {
     open: Boolean(message),
     autoHideDuration: 6000,
     onClose: eventHideSnackbar
-  }, _react["default"].createElement(_core.Alert, _extends({
+  }, _react["default"].createElement(Alert, _extends({
     severity: severity
   }, {
     onClose: eventHideSnackbar
-  }), message)));
+  }), message));
 }
 
 var mapStateToProps = function mapStateToProps(_ref2) {

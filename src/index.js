@@ -6,9 +6,14 @@ import {
   documentSnackbarErrorMessage,
   documentSnackbarReducer
 } from "./redux/actions";
-import {Snackbar, Alert} from '@material-ui/core';
+import {Snackbar} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+
+function Alert(props) {
+  return (<MuiAlert elevation={6} variant="filled" {...props} />);
+}
 
 export {
   SnackbarReducer,
@@ -26,17 +31,15 @@ function SimpleSnackbar({
   const {message, severity} = snackbarReducer
 
   return (
-    <React.Fragment>
-      <Snackbar
-        open={Boolean(message)}
-        autoHideDuration={6000}
-        onClose={eventHideSnackbar}
-      >
-        <Alert {...{severity}} onClose={eventHideSnackbar}>
-          {message}
-        </Alert>
-      </Snackbar>
-    </React.Fragment>
+    <Snackbar
+      open={Boolean(message)}
+      autoHideDuration={6000}
+      onClose={eventHideSnackbar}
+    >
+      <Alert {...{severity}} onClose={eventHideSnackbar}>
+        {message}
+      </Alert>
+    </Snackbar>
   );
 }
 
