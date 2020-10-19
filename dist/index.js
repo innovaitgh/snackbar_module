@@ -41,7 +41,7 @@ var _reducer = _interopRequireDefault(require("./redux/reducer.js"));
 
 var _actions = require("./redux/actions");
 
-var _Snackbar = _interopRequireDefault(require("@material-ui/core/Snackbar"));
+var _core = require("@material-ui/core");
 
 var _redux = require("redux");
 
@@ -56,11 +56,11 @@ function SimpleSnackbar(_ref) {
       eventHideSnackbar = _ref.eventHideSnackbar;
   var message = snackbarReducer.message,
       severity = snackbarReducer.severity;
-  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_Snackbar["default"], {
+  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_core.Snackbar, {
     open: Boolean(message),
     autoHideDuration: 6000,
     onClose: eventHideSnackbar
-  }, _react["default"].createElement(Alert, _extends({
+  }, _react["default"].createElement(_core.Alert, _extends({
     severity: severity
   }, {
     onClose: eventHideSnackbar

@@ -6,7 +6,7 @@ import {
   documentSnackbarErrorMessage,
   documentSnackbarReducer
 } from "./redux/actions";
-import Snackbar from '@material-ui/core/Snackbar';
+import {Snackbar, Alert} from '@material-ui/core';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
