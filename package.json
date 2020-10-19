@@ -1,16 +1,11 @@
 {
   "name": "snackbar",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "license": "MIT",
   "files": [
     "dist/*"
   ],
   "main": "dist/index.js",
-  "peerDependencies": {
-    "react": "^16.8.6",
-    "react-redux": "^7.1.1",
-    "redux": "^4.0.4"
-  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",

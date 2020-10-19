@@ -1,38 +1,47 @@
 import React from "react";
-import SnackBarReducer from "./redux/reducer.js";
-import { onSetMessage } from "./redux/actions";
+import SnackbarReducer from "./redux/reducer.js";
+import {
+  eventHideSnackbar,
+  documentSnackbarSuccessfullMessage,
+  documentSnackbarErrorMessage,
+  documentSnackbarReducer
+} from "./redux/actions";
 import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
-function SimpleSnackbar({ SnackBarReducer: message, onSetMessage }) {
-  function onClose() { onSetMessage(null); };
+export {
+  SnackbarReducer,
+  eventHideSnackbar,
+  documentSnackbarSuccessfullMessage,
+  documentSnackbarErrorMessage,
+  documentSnackbarReducer,
+};
+
+function SimpleSnackbar({
+  snackbarReducer,
+  eventHideSnackbar
+}) {
+
+  const {message, severity} = snackbarReducer
 
   return (
     <React.Fragment>
       <Snackbar
-        open={ Boolean(message) }
-        autoHideDuration={ 6000 }
-        { ...{ message, onClose } }
-        action={[
-          <IconButton
-            key="close"
-            color="inherit"
-            onClick={ onClose }
-          >
-            <CloseIcon />
-          </IconButton>,
-        ]}
-      />
+        open={Boolean(message)}
+        autoHideDuration={6000}
+        onClose={eventHideSnackbar}
+      >
+        <Alert {...{severity}} onClose={eventHideSnackbar}>
+          {message}
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
 
-export { SnackBarReducer, onSetMessage };
-function mapStateToProps({ SnackBarReducer }){ return { SnackBarReducer }; };
+const mapStateToProps = ({SnackbarReducer}) => ({snackbarReducer: SnackbarReducer});
 
-function mapDispatchToProps(dispatch){ return bindActionCreators({ onSetMessage }, dispatch); };
+const mapDispatchToProps = (dispatch) => bindActionCreators({eventHideSnackbar}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimpleSnackbar);
