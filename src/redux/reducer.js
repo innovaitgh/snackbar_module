@@ -7,8 +7,8 @@ export default (state = {
 
   switch (type) {
     case DOCUMENT_SNACKBAR_REDUCER: return payload;
-    case DOCUMENT_SNACKBAR_SUCCESSFULL_MESSAGE: {message: payload, severity: "success"};
-    case DOCUMENT_SNACKBAR_ERROR_MESSAGE: {message: payload, severity: "error"};
+    case DOCUMENT_SNACKBAR_SUCCESSFULL_MESSAGE: return {message: payload, severity: "success"};
+    case DOCUMENT_SNACKBAR_ERROR_MESSAGE: return {message: payload, severity: "error"};
     case EVENT_HIDE_SNACKBAR: return {...state, message: null};
     default: return state;
 

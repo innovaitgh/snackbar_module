@@ -3,16 +3,34 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "SnackBarReducer", {
+Object.defineProperty(exports, "SnackbarReducer", {
   enumerable: true,
   get: function get() {
     return _reducer["default"];
   }
 });
-Object.defineProperty(exports, "onSetMessage", {
+Object.defineProperty(exports, "eventHideSnackbar", {
   enumerable: true,
   get: function get() {
-    return _actions.onSetMessage;
+    return _actions.eventHideSnackbar;
+  }
+});
+Object.defineProperty(exports, "documentSnackbarSuccessfullMessage", {
+  enumerable: true,
+  get: function get() {
+    return _actions.documentSnackbarSuccessfullMessage;
+  }
+});
+Object.defineProperty(exports, "documentSnackbarErrorMessage", {
+  enumerable: true,
+  get: function get() {
+    return _actions.documentSnackbarErrorMessage;
+  }
+});
+Object.defineProperty(exports, "documentSnackbarReducer", {
+  enumerable: true,
+  get: function get() {
+    return _actions.documentSnackbarReducer;
   }
 });
 exports["default"] = void 0;
@@ -25,10 +43,6 @@ var _actions = require("./redux/actions");
 
 var _Snackbar = _interopRequireDefault(require("@material-ui/core/Snackbar"));
 
-var _IconButton = _interopRequireDefault(require("@material-ui/core/IconButton"));
-
-var _Close = _interopRequireDefault(require("@material-ui/icons/Close"));
-
 var _redux = require("redux");
 
 var _reactRedux = require("react-redux");
@@ -38,45 +52,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function SimpleSnackbar(_ref) {
-  var message = _ref.SnackBarReducer,
-      onSetMessage = _ref.onSetMessage;
-
-  function onClose() {
-    onSetMessage(null);
-  }
-
-  ;
-  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_Snackbar["default"], _extends({
+  var snackbarReducer = _ref.snackbarReducer,
+      eventHideSnackbar = _ref.eventHideSnackbar;
+  var message = snackbarReducer.message,
+      severity = snackbarReducer.severity;
+  return _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_Snackbar["default"], {
     open: Boolean(message),
-    autoHideDuration: 6000
+    autoHideDuration: 6000,
+    onClose: eventHideSnackbar
+  }, _react["default"].createElement(Alert, _extends({
+    severity: severity
   }, {
-    message: message,
-    onClose: onClose
-  }, {
-    action: [_react["default"].createElement(_IconButton["default"], {
-      key: "close",
-      color: "inherit",
-      onClick: onClose
-    }, _react["default"].createElement(_Close["default"], null))]
-  })));
+    onClose: eventHideSnackbar
+  }), message)));
 }
 
-function mapStateToProps(_ref2) {
-  var SnackBarReducer = _ref2.SnackBarReducer;
+var mapStateToProps = function mapStateToProps(_ref2) {
+  var SnackbarReducer = _ref2.SnackbarReducer;
   return {
-    SnackBarReducer: SnackBarReducer
+    snackbarReducer: SnackbarReducer
   };
-}
+};
 
-;
-
-function mapDispatchToProps(dispatch) {
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
-    onSetMessage: _actions.onSetMessage
+    eventHideSnackbar: _actions.eventHideSnackbar
   }, dispatch);
-}
-
-;
+};
 
 var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SimpleSnackbar);
 
