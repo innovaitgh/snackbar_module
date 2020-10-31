@@ -26,7 +26,8 @@ const SimpleSnackbar = ({eventHideSnackbar}) => {
       </Alert>
     </Snackbar>
   );
-}
+
+};
 
 export default (Component) => (props) => {
 
