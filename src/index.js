@@ -1,34 +1,19 @@
 import React from "react";
-import SnackbarReducer from "./redux/reducer.js";
-import {
-  eventHideSnackbar,
-  documentSnackbarSuccessfullMessage,
-  documentSnackbarErrorMessage,
-  documentSnackbarReducer
-} from "./redux/actions";
 import {Snackbar} from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
 
-function Alert(props) {
-  return (<MuiAlert elevation={6} variant="filled" {...props} />);
-}
+const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
 
-export {
-  SnackbarReducer,
-  eventHideSnackbar,
-  documentSnackbarSuccessfullMessage,
-  documentSnackbarErrorMessage,
-  documentSnackbarReducer,
-};
+export const SnackbarContext = React.createContext();
+export const DocumentSnackbarSuccessfulMessageDispatch = React.createContext();
+export const DocumentSnackbarErrorMessageDispatch = React.createContext();
+export const DocumentSnackbarDispatch = React.createContext();
 
-function SimpleSnackbar({
-  snackbarReducer,
-  eventHideSnackbar
-}) {
+const SimpleSnackbar = ({eventHideSnackbar}) => {
 
-  const {message, severity} = snackbarReducer
+  const snackbarState = React.useContext(SnackbarContext);
+
+  const {message, severity} = snackbarState;
 
   return (
     <Snackbar
@@ -43,8 +28,33 @@ function SimpleSnackbar({
   );
 }
 
-const mapStateToProps = ({SnackbarReducer}) => ({snackbarReducer: SnackbarReducer});
+export default (Component) => (props) => {
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({eventHideSnackbar}, dispatch)
+  const [snackbarState, setSnackbarState] = React.useState({
+    message: "",
+    severity: ""
+  });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SimpleSnackbar);
+  const documentSnackbarErrorMessage = (message) => setSnackbarState({severity: "error", message});
+
+  const documentSnackbarSuccessfulMessage = (message) => setSnackbarState({severity: "success", message});
+
+  const documentSnackbarReducer = (state) => setSnackbarState(state);
+
+  const eventHideSnackbar = () => setSnackbarState({message: null});
+
+  return(
+    <SnackbarContext.Provider value={snackbarState}>
+      <DocumentSnackbarSuccessfulMessageDispatch.Provider value={documentSnackbarSuccessfulMessage}>
+        <DocumentSnackbarErrorMessageDispatch.Provider value={documentSnackbarErrorMessage}>
+          <DocumentSnackbarDispatch.Provider value={documentSnackbarReducer}>
+            <Component {...props} />
+            <SimpleSnackbar {...{eventHideSnackbar}} />
+          </DocumentSnackbarDispatch.Provider>
+        </DocumentSnackbarErrorMessageDispatch.Provider>
+      </DocumentSnackbarSuccessfulMessageDispatch.Provider>
+    </SnackbarContext.Provider>
+  );
+
+
+};

@@ -3,68 +3,56 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "SnackbarReducer", {
-  enumerable: true,
-  get: function get() {
-    return _reducer["default"];
-  }
-});
-Object.defineProperty(exports, "eventHideSnackbar", {
-  enumerable: true,
-  get: function get() {
-    return _actions.eventHideSnackbar;
-  }
-});
-Object.defineProperty(exports, "documentSnackbarSuccessfullMessage", {
-  enumerable: true,
-  get: function get() {
-    return _actions.documentSnackbarSuccessfullMessage;
-  }
-});
-Object.defineProperty(exports, "documentSnackbarErrorMessage", {
-  enumerable: true,
-  get: function get() {
-    return _actions.documentSnackbarErrorMessage;
-  }
-});
-Object.defineProperty(exports, "documentSnackbarReducer", {
-  enumerable: true,
-  get: function get() {
-    return _actions.documentSnackbarReducer;
-  }
-});
-exports["default"] = void 0;
+exports["default"] = exports.DocumentSnackbarDispatch = exports.DocumentSnackbarErrorMessageDispatch = exports.DocumentSnackbarSuccessfulMessageDispatch = exports.SnackbarContext = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _reducer = _interopRequireDefault(require("./redux/reducer.js"));
-
-var _actions = require("./redux/actions");
 
 var _core = require("@material-ui/core");
 
 var _Alert = _interopRequireDefault(require("@material-ui/lab/Alert"));
 
-var _redux = require("redux");
-
-var _reactRedux = require("react-redux");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function Alert(props) {
+var Alert = function Alert(props) {
   return _react["default"].createElement(_Alert["default"], _extends({
     elevation: 6,
     variant: "filled"
   }, props));
-}
+};
 
-function SimpleSnackbar(_ref) {
-  var snackbarReducer = _ref.snackbarReducer,
-      eventHideSnackbar = _ref.eventHideSnackbar;
-  var message = snackbarReducer.message,
-      severity = snackbarReducer.severity;
+var SnackbarContext = _react["default"].createContext();
+
+exports.SnackbarContext = SnackbarContext;
+
+var DocumentSnackbarSuccessfulMessageDispatch = _react["default"].createContext();
+
+exports.DocumentSnackbarSuccessfulMessageDispatch = DocumentSnackbarSuccessfulMessageDispatch;
+
+var DocumentSnackbarErrorMessageDispatch = _react["default"].createContext();
+
+exports.DocumentSnackbarErrorMessageDispatch = DocumentSnackbarErrorMessageDispatch;
+
+var DocumentSnackbarDispatch = _react["default"].createContext();
+
+exports.DocumentSnackbarDispatch = DocumentSnackbarDispatch;
+
+var SimpleSnackbar = function SimpleSnackbar(_ref) {
+  var eventHideSnackbar = _ref.eventHideSnackbar;
+
+  var snackbarState = _react["default"].useContext(SnackbarContext);
+
+  var message = snackbarState.message,
+      severity = snackbarState.severity;
   return _react["default"].createElement(_core.Snackbar, {
     open: Boolean(message),
     autoHideDuration: 6000,
@@ -74,21 +62,54 @@ function SimpleSnackbar(_ref) {
   }, {
     onClose: eventHideSnackbar
   }), message));
-}
+};
 
-var mapStateToProps = function mapStateToProps(_ref2) {
-  var SnackbarReducer = _ref2.SnackbarReducer;
-  return {
-    snackbarReducer: SnackbarReducer
+var _default = function _default(Component) {
+  return function (props) {
+    var _React$useState = _react["default"].useState({
+      message: "",
+      severity: ""
+    }),
+        _React$useState2 = _slicedToArray(_React$useState, 2),
+        snackbarState = _React$useState2[0],
+        setSnackbarState = _React$useState2[1];
+
+    var documentSnackbarErrorMessage = function documentSnackbarErrorMessage(message) {
+      return setSnackbarState({
+        severity: "error",
+        message: message
+      });
+    };
+
+    var documentSnackbarSuccessfulMessage = function documentSnackbarSuccessfulMessage(message) {
+      return setSnackbarState({
+        severity: "success",
+        message: message
+      });
+    };
+
+    var documentSnackbarReducer = function documentSnackbarReducer(state) {
+      return setSnackbarState(state);
+    };
+
+    var eventHideSnackbar = function eventHideSnackbar() {
+      return setSnackbarState({
+        message: null
+      });
+    };
+
+    return _react["default"].createElement(SnackbarContext.Provider, {
+      value: snackbarState
+    }, _react["default"].createElement(DocumentSnackbarSuccessfulMessageDispatch.Provider, {
+      value: documentSnackbarSuccessfulMessage
+    }, _react["default"].createElement(DocumentSnackbarErrorMessageDispatch.Provider, {
+      value: documentSnackbarErrorMessage
+    }, _react["default"].createElement(DocumentSnackbarDispatch.Provider, {
+      value: documentSnackbarReducer
+    }, _react["default"].createElement(Component, props), _react["default"].createElement(SimpleSnackbar, {
+      eventHideSnackbar: eventHideSnackbar
+    })))));
   };
 };
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
-    eventHideSnackbar: _actions.eventHideSnackbar
-  }, dispatch);
-};
-
-var _default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SimpleSnackbar);
 
 exports["default"] = _default;
