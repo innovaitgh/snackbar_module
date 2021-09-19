@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.DocumentSnackbarDispatch = exports.DocumentSnackbarErrorMessageDispatch = exports.DocumentSnackbarSuccessfulMessageDispatch = exports.SnackbarContext = void 0;
+exports["default"] = exports.SnackbarContext = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -34,22 +34,11 @@ var SnackbarContext = _react["default"].createContext();
 
 exports.SnackbarContext = SnackbarContext;
 
-var DocumentSnackbarSuccessfulMessageDispatch = _react["default"].createContext();
-
-exports.DocumentSnackbarSuccessfulMessageDispatch = DocumentSnackbarSuccessfulMessageDispatch;
-
-var DocumentSnackbarErrorMessageDispatch = _react["default"].createContext();
-
-exports.DocumentSnackbarErrorMessageDispatch = DocumentSnackbarErrorMessageDispatch;
-
-var DocumentSnackbarDispatch = _react["default"].createContext();
-
-exports.DocumentSnackbarDispatch = DocumentSnackbarDispatch;
-
 var SimpleSnackbar = function SimpleSnackbar(_ref) {
   var eventHideSnackbar = _ref.eventHideSnackbar;
 
-  var snackbarState = _react["default"].useContext(SnackbarContext);
+  var _React$useContext = _react["default"].useContext(SnackbarContext),
+      snackbarState = _React$useContext.snackbarState;
 
   var message = snackbarState.message,
       severity = snackbarState.severity;
@@ -66,49 +55,40 @@ var SimpleSnackbar = function SimpleSnackbar(_ref) {
 
 var _default = function _default(Component) {
   return function (props) {
-    var _React$useState = _react["default"].useState({
-      message: "",
-      severity: ""
-    }),
+    var _React$useState = _react["default"].useState({}),
         _React$useState2 = _slicedToArray(_React$useState, 2),
         snackbarState = _React$useState2[0],
         setSnackbarState = _React$useState2[1];
 
-    var documentSnackbarErrorMessage = function documentSnackbarErrorMessage(message) {
+    var showErrorMessage = function showErrorMessage(message) {
       return setSnackbarState({
         severity: "error",
         message: message
       });
     };
 
-    var documentSnackbarSuccessfulMessage = function documentSnackbarSuccessfulMessage(message) {
+    var showsuccessfulMessage = function showsuccessfulMessage(message) {
       return setSnackbarState({
         severity: "success",
         message: message
       });
     };
 
-    var documentSnackbarReducer = function documentSnackbarReducer(state) {
-      return setSnackbarState(state);
-    };
-
     var eventHideSnackbar = function eventHideSnackbar() {
-      return setSnackbarState({
-        message: null
-      });
+      return setSnackbarState({});
     };
 
+    var snackbarContext = {
+      eventHideSnackbar: eventHideSnackbar,
+      showErrorMessage: showErrorMessage,
+      showSuccessfulMessage: showSuccessfulMessage,
+      snackbarState: snackbarState
+    };
     return _react["default"].createElement(SnackbarContext.Provider, {
-      value: snackbarState
-    }, _react["default"].createElement(DocumentSnackbarSuccessfulMessageDispatch.Provider, {
-      value: documentSnackbarSuccessfulMessage
-    }, _react["default"].createElement(DocumentSnackbarErrorMessageDispatch.Provider, {
-      value: documentSnackbarErrorMessage
-    }, _react["default"].createElement(DocumentSnackbarDispatch.Provider, {
-      value: documentSnackbarReducer
+      value: snackbarContext
     }, _react["default"].createElement(Component, props), _react["default"].createElement(SimpleSnackbar, {
       eventHideSnackbar: eventHideSnackbar
-    })))));
+    }));
   };
 };
 
