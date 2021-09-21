@@ -39,7 +39,7 @@ export default (Component) => (props) => {
   const [snackbarState, setSnackbarState] = React.useState({});
 
   const showErrorMessage = (message) => setSnackbarState({severity: "error", message});
-  const showsuccessfulMessage = (message) => setSnackbarState({severity: "success", message});
+  const showSuccessfulMessage = (message) => setSnackbarState({severity: "success", message});
   const eventHideSnackbar = () => setSnackbarState({});
 
   const snackbarContext = {
@@ -58,3 +58,4 @@ export default (Component) => (props) => {
 
 
 };
+

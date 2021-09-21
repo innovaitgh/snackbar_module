@@ -67,7 +67,7 @@ var _default = function _default(Component) {
       });
     };
 
-    var showsuccessfulMessage = function showsuccessfulMessage(message) {
+    var showSuccessfulMessage = function showSuccessfulMessage(message) {
       return setSnackbarState({
         severity: "success",
         message: message
